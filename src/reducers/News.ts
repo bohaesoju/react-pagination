@@ -2,6 +2,12 @@ export const NEWS_REQUEST = 'NEWS_REQUEST';
 export const NEWS_SUCCESS = 'NEWS_SUCCESS';
 export const NEWS_FAILURE = 'NEWS_FAILURE';
 
+export const newsRequest = () => {
+    return {
+        type: NEWS_REQUEST
+    }
+};
+
 const initialState = {
     data: [],
     isFetchNews: false

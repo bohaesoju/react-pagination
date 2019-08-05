@@ -6,6 +6,7 @@
     "sourceMap": true,
     "strict": true,
     "esModuleInterop": true,
-    "allowJs": true
+    "allowJs": true,
+    "noImplicitAny": false
   }
 }
