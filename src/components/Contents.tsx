@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 interface IProps{
-    contents: []
+    currentContent: []
 }
 
 interface IContent{
@@ -10,11 +10,11 @@ interface IContent{
 }
 
 export const Contents = ({
-                             contents
+                             currentContent
                           }: IProps) => {
     return (
         <div className="list-group">
-            {contents.map((content: IContent) => (
+            {currentContent.map((content: IContent) => (
                 <div
                     className="list-group-item list-group-item-action"
                     key={ content.id }
