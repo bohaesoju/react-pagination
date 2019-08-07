@@ -13,66 +13,113 @@ import '../styles/style.scss';
 // }
 
 class App extends React.Component {
-    constructor(props){
-        super(props);
-        this.props.onNewsRequest();
-        this.state = {
-            allContents: [],
-            currentCategory: '정치',
-            currentContent: [],
-            currentPage: 1,
-        };
-        this.contentPerPage = 5;
-        this.categories = [
-            {
-                id: 1,
-                name: '정치'
-            },
-            {
-                id: 2,
-                name: '경제'
-            },
-            {
-                id: 3,
-                name: '사회'
-            }
-        ];
-    }
+
+    state = {
+        allContents: [],
+        currentCategory: '정치',
+        currentContent: [],
+        currentPage: 1,
+        contentPerPage : 5
+    };
 
     componentDidMount() {
-        setTimeout(() => {
+        this.props.onNewsRequest();
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        const { News } = this.props;
+        if(News !== prevProps.News){
             this.setState({
-                allContents: this.props.News.data,
-                currentContent: this.props.News.data.filter(content => content.UserId === 1)
-                    .slice(0, this.contentPerPage)
-            });
-        }, 1000)
+                allContents: News.data,
+                currentContent: News.data.filter(content => content.UserId === 1)
+                    .slice(0, this.state.contentPerPage)
+            })
+        }
     }
 
     changeCurrentCategory = userSelectedCategory => {
         const { allContents } = this.state;
-        const category = this.categories.find(category =>
+        const { categories } = this.props.News;
+        const category = categories.find(category =>
             category.name === userSelectedCategory
         );
         this.setState({
             currentCategory: category.name,
             currentContent: allContents
                 .filter(post => post.UserId === category.id)
-                .slice(0, this.contentPerPage),
+                .slice(0, this.state.contentPerPage),
             currentPage: 1
         })
     };
 
+    loadMoreContents = direction => {
+        const { allContents, currentCategory, contentPerPage } = this.state;
+        const { categories } = this.props.News;
+
+        const currentCategoryId = categories.find(category =>
+            category.name === currentCategory
+            ).id;
+
+        const currentCategoryContents = allContents.filter(
+            content => content.UserId === currentCategoryId
+        );
+
+        const pagedContents = page => {
+            const lastIndex = page * contentPerPage;
+            const firstIndex = lastIndex - contentPerPage;
+            return currentCategoryContents.slice(firstIndex, lastIndex);
+        };
+
+        const getLastPage = () => {
+            return (
+                Math.floor(currentCategoryContents.length / contentPerPage)
+            )
+        };
+
+        switch(direction){
+            case 'prev':
+                this.setState(prevState => {
+                    if(prevState.currentPage === 1){
+                        return {
+                            currentPage: getLastPage(),
+                            currentContent: pagedContents(getLastPage())
+                        };
+                    } else {
+                        return {
+                            currentPage: prevState.currentPage - 1,
+                            currentContent: pagedContents(prevState.currentPage - 1)
+                        };
+                    }
+                });
+                break;
+            case 'next':
+                this.setState(prevState => {
+                    if(prevState.currentPage === getLastPage()){
+                        return{
+                            currentPage: 1,
+                            currentContent: pagedContents(1)
+                        };
+                    } else {
+                        return {
+                            currentPage: prevState.currentPage + 1,
+                            currentContent: pagedContents(prevState.currentPage + 1)
+                        }
+                    }
+                })
+        }
+    };
+
     render(){
+        const { categories } = this.props.News;
         return (
             <div className="App">
                 <Tabs
-                    categories={ this.categories }
+                    categories={ categories }
                     currentCategory={ this.state.currentCategory }
                     changeCurrentCategory = { this.changeCurrentCategory }
                 />
                 <Contents contents={ this.state.currentContent } />
-                <Buttons />
+                <Buttons loadMoreContents={ this.loadMoreContents } />
             </div>
         )
     }

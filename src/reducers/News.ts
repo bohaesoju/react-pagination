@@ -10,7 +10,21 @@ export const newsRequest = () => {
 
 const initialState = {
     data: [],
-    isFetchNews: false
+    isFetchNews: false,
+    categories : [
+        {
+            id: 1,
+            name: '정치'
+        },
+        {
+            id: 2,
+            name: '경제'
+        },
+        {
+            id: 3,
+            name: '사회'
+        }
+    ]
 };
 
 const news = (state = initialState, action: any) => {

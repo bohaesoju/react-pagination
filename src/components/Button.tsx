@@ -1,7 +1,26 @@
 import * as React from 'react';
 
-export const Buttons:React.FC = () => {
+interface IButtons{
+    loadMoreContents(e: string): void
+}
+
+export const Buttons = ({
+                            loadMoreContents
+                                 }: IButtons) => {
     return (
-        <div>버튼</div>
+        <div className="mt-3">
+            <button
+                className="btn btn-outline-dark btn-sm mr-2"
+                onClick={() => loadMoreContents('prev')}
+            >
+                <i className="fas fa-angle-left" />
+            </button>
+            <button
+                className="btn btn-outline-dark btn-sm"
+                onClick={() => loadMoreContents('next')}
+            >
+                <i className="fas fa-angle-right" />
+            </button>
+        </div>
     )
 };
