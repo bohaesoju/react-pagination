@@ -25,11 +25,6 @@ const App2 = () => {
             .slice(0, contentPerPage))
     }, [data]);
 
-    // const changeCurrentCategory = userSelectedCategory => {
-    //     const category = categories.find(e => e.name === userSelectedCategory)
-    //     setCurrentCategory(category.name)
-    // };
-
     const changeCurrentCategory = useCallback((e) => {
         const category = categories.find(category => category.name === e);
         return (
@@ -63,14 +58,13 @@ const App2 = () => {
         switch(e){
             case 'prev':
                 if(currentPage === 1){
-                    // return {
                     setCurrentPage(getLastPage());
                     setCurrentContent(pagedContents(getLastPage()))
-                    // }
                 } else {
                     setCurrentPage(currentPage - 1);
                     setCurrentContent(pagedContents(currentPage - 1))
                 }
+                break;
             case 'next':
                 if(currentPage === getLastPage()){
                     // return {
@@ -81,9 +75,9 @@ const App2 = () => {
                     setCurrentPage(currentPage + 1);
                     setCurrentContent(pagedContents(currentPage + 1))
                 }
-
+                break;
+            default: null;
         }
-        console.log(e)
     });
 
     return(
