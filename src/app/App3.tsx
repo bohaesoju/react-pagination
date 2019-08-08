@@ -3,15 +3,14 @@ import { useSelector, useDispatch } from "react-redux";
 import '../styles/style.scss';
 import { NEWS_REQUEST } from "../reducers/News";
 import { Tabs, Contents, Buttons } from '../components'
-import { useCallback } from "react";
 
-const App2 = () => {
+const App3 = () => {
     const [allContents, setAllContents] = React.useState([]);
     const [currentCategory, setCurrentCategory] = React.useState('정치');
     const [currentContent, setCurrentContent] = React.useState([]);
     const [currentPage, setCurrentPage] = React.useState(1);
     const [contentPerPage, setContentPerPage] = React.useState(5);
-    const { categories, data, isFetchNews } = useSelector(state => state.News);
+    const { categories, data, isFetchNews } = useSelector((state: any) => state.News);
     const dispatch = useDispatch();
 
     React.useEffect(() => {
@@ -25,22 +24,22 @@ const App2 = () => {
             .slice(0, contentPerPage))
     }, [data]);
 
-    const changeCurrentCategory = useCallback((e) => {
+    const changeCurrentCategory = ((e: string) => {
         const category = categories.find(category => category.name === e);
         return (
             setCurrentCategory(category.name),
-            setCurrentContent(allContents.filter(e => e.UserId === category.id)
-                .slice(0, contentPerPage))
+                setCurrentContent(allContents.filter((e: any) => e.UserId === category.id)
+                    .slice(0, contentPerPage))
         )
     });
 
-    const loadMoreContents = useCallback((e) => {
+    const loadMoreContents = (e: string) => {
         const currentCategoryId = categories.find(category =>
             category.name === currentCategory
         ).id;
 
         const currentCategoryContents = allContents.filter(
-            content => content.UserId === currentCategoryId
+            (content: any) => content.UserId === currentCategoryId
         );
 
         const pagedContents = page => {
@@ -67,18 +66,15 @@ const App2 = () => {
                 break;
             case 'next':
                 if(currentPage === getLastPage()){
-                    // return {
                     setCurrentPage(1);
                     setCurrentContent(pagedContents(1))
-                    // }
                 } else {
                     setCurrentPage(currentPage + 1);
                     setCurrentContent(pagedContents(currentPage + 1))
                 }
                 break;
-            default: null;
         }
-    });
+    };
 
     return(
         <div className="App">
@@ -89,4 +85,4 @@ const App2 = () => {
     )
 };
 
-export default App2;
+export default App3;

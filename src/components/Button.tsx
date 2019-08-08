@@ -10,13 +10,13 @@ export const Buttons = ({
     return (
         <div className="mt-3">
             <button
-                className="btn btn-outline-dark btn-sm mr-2"
+                className="btn btn-outline-dark btn-lm mr-2"
                 onClick={() => loadMoreContents('prev')}
             >
                 <i className="fas fa-angle-left" />
             </button>
             <button
-                className="btn btn-outline-dark btn-sm"
+                className="btn btn-outline-dark btn-lm"
                 onClick={() => loadMoreContents('next')}
             >
                 <i className="fas fa-angle-right" />
