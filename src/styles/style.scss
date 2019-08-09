@@ -23,6 +23,14 @@
     .articleWrap{
       position: relative;
       height: 100%;
+      padding: 10px;
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+      .articleId{
+        text-align: right;
+        margin-bottom: 10px;
+      }
       .articleTitle{
         font-weight: bold;
         font-size: 20px;
