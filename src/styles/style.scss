@@ -1,8 +1,39 @@
 .App{
-  width: 500px;
-  margin: 5px auto 5px;
-}
+  //width: 500px;
+  //margin: 5px auto 5px;
+  position: relative;
+  .categoryContainer{
+    position: absolute;
+    right:0;
+    top:10px;
+    width: 300px;
+    .list-group-item{
+      height: 130px;
+      overflow: hidden;
+    }
+  }
+  .articleContainer{
+    position: absolute;
+    left:10px;
+    right:310px;
+    top:56px;
+    height: 646px;
+    border:1px solid #ccc;
+    border-radius: 5px;
+    .articleWrap{
+      position: relative;
+      height: 100%;
+      .articleTitle{
+        font-weight: bold;
+        font-size: 20px;
+        margin-bottom: 10px;
+      }
+      .articleCreatedAt{
+        position: absolute;
+        right:10px;
+        bottom:10px;
+      }
+    }
 
-.list-group-item{
-  height: 130px;
+  }
 }

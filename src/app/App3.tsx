@@ -2,7 +2,7 @@ import * as React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import '../styles/style.scss';
 import { NEWS_REQUEST } from "../reducers/News";
-import { Tabs, Contents, Buttons } from '../components'
+import { Tabs, Contents, Buttons, Article } from '../components'
 
 const App3 = () => {
     const [allContents, setAllContents] = React.useState([]);
@@ -10,6 +10,7 @@ const App3 = () => {
     const [currentContent, setCurrentContent] = React.useState([]);
     const [currentPage, setCurrentPage] = React.useState(1);
     const [contentPerPage, setContentPerPage] = React.useState(5);
+    const [article, setArticle] = React.useState(allContents[0]);
     const { categories, data, isFetchNews } = useSelector((state: any) => state.News);
     const dispatch = useDispatch();
 
@@ -21,7 +22,11 @@ const App3 = () => {
         }
         setAllContents(data);
         setCurrentContent(data.filter(content => content.UserId === 1)
-            .slice(0, contentPerPage))
+            .slice(0, contentPerPage));
+        const firstArticle = allContents.filter((article: any) => article.id === 1);
+        // setArticle(firstArticle[0]);
+        setArticle(data[0]);
+
     }, [data]);
 
     const changeCurrentCategory = ((e: string) => {
@@ -76,11 +81,30 @@ const App3 = () => {
         }
     };
 
+    const initFirstArticle = () => {
+        const firstArticle = allContents.filter((article: any) => article.id === 1);
+        setArticle(firstArticle[0])
+    } ;
+
+    const clickArticle = (e: number) => {
+        const articleContent = allContents.filter((article: any) => article.id === e);
+        // console.log('articleContent : ', articleContent[0])
+        return(
+            setArticle(articleContent[0])
+        )
+        // console.log('article : ', article)
+    };
+
     return(
         <div className="App">
-            <Tabs categories={ categories } currentCategory={ currentCategory } changeCurrentCategory = { changeCurrentCategory } />
-            <Contents currentContent = { currentContent } />
-            <Buttons loadMoreContents = { loadMoreContents } />
+            <div className="categoryContainer">
+                <Tabs categories={ categories } currentCategory={ currentCategory } changeCurrentCategory = { changeCurrentCategory } />
+                <Contents currentContent = { currentContent } clickArticle = { clickArticle } />
+                <Buttons loadMoreContents = { loadMoreContents } />
+            </div>
+            <div className="articleContainer">
+                <Article article = { article } />
+            </div>
         </div>
     )
 };

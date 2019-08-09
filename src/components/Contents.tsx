@@ -2,6 +2,7 @@ import * as React from 'react';
 
 interface IProps{
     currentContent: any
+    clickArticle(e: number): void
 }
 
 interface IContent{
@@ -10,7 +11,8 @@ interface IContent{
 }
 
 export const Contents = ({
-                             currentContent
+                             currentContent,
+                             clickArticle
                           }: IProps) => {
     return (
         <div className="list-group">
@@ -18,6 +20,7 @@ export const Contents = ({
                 <div
                     className="list-group-item list-group-item-action"
                     key={ content.id }
+                    onClick={() => clickArticle( content.id )}
                 >
                     <small>content #{content.id}</small>
                     <div className="mb-1">{ content.title }</div>
