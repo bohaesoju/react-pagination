@@ -23,8 +23,6 @@ const App3 = () => {
         setAllContents(data);
         setCurrentContent(data.filter(content => content.UserId === 1)
             .slice(0, contentPerPage));
-        const firstArticle = allContents.filter((article: any) => article.id === 1);
-        // setArticle(firstArticle[0]);
         setArticle(data[0]);
 
     }, [data]);
@@ -81,18 +79,11 @@ const App3 = () => {
         }
     };
 
-    const initFirstArticle = () => {
-        const firstArticle = allContents.filter((article: any) => article.id === 1);
-        setArticle(firstArticle[0])
-    } ;
-
     const clickArticle = (e: number) => {
         const articleContent = allContents.filter((article: any) => article.id === e);
-        // console.log('articleContent : ', articleContent[0])
         return(
             setArticle(articleContent[0])
         )
-        // console.log('article : ', article)
     };
 
     return(
