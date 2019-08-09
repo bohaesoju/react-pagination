@@ -10,6 +10,10 @@
     .list-group-item{
       height: 130px;
       overflow: hidden;
+      .mb-1{
+        height: 75px;
+        overflow: hidden;
+      }
     }
   }
   .articleContainer{

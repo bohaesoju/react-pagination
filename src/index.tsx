@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import { applyMiddleware, createStore } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 import { rootReducer } from './reducers';
-import App3 from './app/App3';
+import App from './app/App';
 import createSagaMiddleWare from 'redux-saga';
 import rootSaga from './sagas';
 
@@ -21,7 +21,7 @@ const rootElement: any = document.getElementById('root');
 
 ReactDOM.render(
     <Provider store={store}>
-        <App3 />
+        <App />
     </Provider>,
     rootElement
 );

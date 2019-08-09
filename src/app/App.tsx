@@ -4,7 +4,7 @@ import '../styles/style.scss';
 import { NEWS_REQUEST } from "../reducers/News";
 import { Tabs, Contents, Buttons, Article } from '../components'
 
-const App3 = () => {
+const App = () => {
     const [allContents, setAllContents] = React.useState([]);
     const [currentCategory, setCurrentCategory] = React.useState('정치');
     const [currentContent, setCurrentContent] = React.useState([]);
@@ -100,4 +100,4 @@ const App3 = () => {
     )
 };
 
-export default App3;
+export default App;
