@@ -4,12 +4,19 @@ import '../styles/style.scss';
 import { NEWS_REQUEST } from "../reducers/News";
 import { Tabs, Contents, Buttons, Article } from '../components'
 
+const CONSTANTS = {
+    FIRST_PAGE: 1,
+    PREV: 'prev',
+    NEXT: 'next',
+    SET_CURRENT_PAGE: 1,
+    TOTAL_ROW_COUNT: 5
+}
 const App = () => {
     const [allContents, setAllContents] = React.useState([]);
     const [currentCategory, setCurrentCategory] = React.useState('정치');
     const [currentContent, setCurrentContent] = React.useState([]);
-    const [currentPage, setCurrentPage] = React.useState(1);
-    const [contentPerPage, setContentPerPage] = React.useState(5);
+    const [currentPage, setCurrentPage] = React.useState(CONSTANTS.SET_CURRENT_PAGE);
+    const [contentPerPage, setContentPerPage] = React.useState(CONSTANTS.TOTAL_ROW_COUNT);
     const [article, setArticle] = React.useState(allContents[0]);
     const { categories, data, isFetchNews } = useSelector((state: any) => state.News);
     const dispatch = useDispatch();
@@ -21,7 +28,7 @@ const App = () => {
             });
         }
         setAllContents(data);
-        setCurrentContent(data.filter(content => content.UserId === 1)
+        setCurrentContent(data.filter(content => content.UserId === CONSTANTS.FIRST_PAGE)
             .slice(0, contentPerPage));
         setArticle(data[0]);
 
@@ -56,27 +63,45 @@ const App = () => {
                 Math.floor(currentCategoryContents.length / contentPerPage)
             )
         };
+        // const setCurrentFeatureType1 = (index: number) => {
+        //     return {
+        //         a: () => {
+        //             setCurrentPage(currentPage + index);
+        //             setCurrentContent(pagedContents(currentPage + index))
+        //         },
+        //         b: () => {
+        //             setCurrentPage(typeof f === 'number' ? f : f());
+        //             setCurrentContent(pagedContents(typeof f === 'number' ? f : f()))
+        //         }
+        //     }
+        // }
 
-        switch(e){
-            case 'prev':
-                if(currentPage === 1){
-                    setCurrentPage(getLastPage());
-                    setCurrentContent(pagedContents(getLastPage()))
-                } else {
-                    setCurrentPage(currentPage - 1);
-                    setCurrentContent(pagedContents(currentPage - 1))
-                }
-                break;
-            case 'next':
-                if(currentPage === getLastPage()){
-                    setCurrentPage(1);
-                    setCurrentContent(pagedContents(1))
-                } else {
-                    setCurrentPage(currentPage + 1);
-                    setCurrentContent(pagedContents(currentPage + 1))
-                }
-                break;
+        const setCurrentFeatureType1 = (index: number) => {
+            setCurrentPage(currentPage + index);
+            setCurrentContent(pagedContents(currentPage + index))
         }
+        const setCurrentFeatureType2 = (f: any) => {
+            setCurrentPage(typeof f === 'number' ? f : f());
+            setCurrentContent(pagedContents(typeof f === 'number' ? f : f()))
+        }
+        const prevAction = () => {
+            currentPage === CONSTANTS.FIRST_PAGE ?
+                setCurrentFeatureType2(getLastPage) :
+                setCurrentFeatureType1(-1);
+        };
+        const nextAction = () => {
+            currentPage === getLastPage() ?
+                setCurrentFeatureType2(1) :
+                setCurrentFeatureType1(1);
+        };
+        const featureAction = (actionType: string) => {
+            return {
+                [CONSTANTS.PREV]: prevAction(),
+                [CONSTANTS.NEXT]: nextAction()
+            }
+        };
+        featureAction(CONSTANTS.PREV);
+        featureAction(CONSTANTS.NEXT);
     };
 
     const clickArticle = (e: number) => {
